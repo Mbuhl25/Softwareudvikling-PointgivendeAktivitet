@@ -30,7 +30,7 @@ public:
 		std::cout << "+==================================" << std::endl;
 		for (int i = 0; i < tasklist.size(); ++i)
 		{
-			std::cout << "| " << tasklist[i]._description << std::endl;
+			std::cout << "| " << i << ": " << tasklist[i]._description << std::endl;
 			std::cout << "+----------------------------------+" << std::endl;
 		}
 	}
@@ -54,6 +54,18 @@ int main() {
 		else if (command[0] == '2' && command.size() > 2)
 		{
 			backlog.tasklist.push_back(command.substr(2));
+		}
+		else if (command[0] == '3')
+		{
+			std::cout << "write number of task you wish to edit\nfollowed by what you want to change it to" << std::endl;
+			std::getline(std::cin, command);
+			for (int i = 0; i < backlog.tasklist.size(); ++i)
+			{
+				if ((command[0] - '0') == i && command.size() > 2)
+				{
+					backlog.tasklist[i]._description = command.substr(2);
+				}
+			}
 		}
 	}
     return 0;
