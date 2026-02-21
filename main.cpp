@@ -1,5 +1,6 @@
 #include <iostream>
 #include <fstream>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -12,12 +13,12 @@ public:
 	}
 };
 
-class TodoList
+class State
 {	
 public:
 	std::string _category;
 	std::vector<Task> tasklist;
-	TodoList(std::string category)
+	State(std::string category)
 	{
 		_category = category;
 	}
@@ -34,57 +35,98 @@ public:
 			std::cout << "+----------------------------------+" << std::endl;
 		}
 	}
+
+	void editTask(std::string description)
+	{
+		std::cout << "Which description do you wish to change to ?" << description << std::endl;
+		int taskNr = 0;
+		std::cin >> taskNr;
+		tasklist[taskNr]._description = description;
+	}
+
+	void deleteTask()
+	{
+		std::cout << "write which task you wish to delete" << std::endl;
+		int taskNr = 0;
+		std::cin >> taskNr;
+		tasklist.erase(tasklist.begin()+taskNr);
+	}
 };
 
-int main() {
 
-    TodoList backlog = TodoList("Backlog");
+int main() {
+	// Initiate all the different parts of the To Do list:
+    State stateBacklog = State("Backlog");
+	State stateDoing = State("Doing");
+	State stateTest = State("test");
+	std::vector<State> stateList;
+	stateList.push_back(stateBacklog);
+	stateList.push_back(stateDoing);
+	stateList.push_back(stateTest);
+
+	State* statePointer = nullptr;
+
+	
 	std::cout << "Welcome to the todo list" << std::endl;
-	std::cout << "What would you like to do?\n - 1: view tasks\n - 2: add task to backlog\n - 3: edit tasks" << std::endl;
 	while (true)
 	{
-		
-		std::cout << "\nwrite a task" << std::endl;
-		std::string command = "";
-		std::getline(std::cin, command);
-		//View ToDo-list
-		if (command[0] == '1')
+		std::cout << "Enter: <command> [targetState] [sentence]\n> ";
+
+		// Get user Input as three variables: <command> [targetState] [sentence]
+		std::string line;
+		std::getline(std::cin, line);
+        std::string command, targetState, sentence;
+        std::istringstream iss(line);
+        iss >> command;
+        iss >> targetState;
+        std::getline(iss, sentence);
+
+		// assign a variable "toDoListPart", which points to the part of the ToDo-list to evaluate the command over
+		for (int i = 0; i < stateList.size(); ++i)
 		{
-			backlog.viewTasks();
-		}
-		//Add task to ToDo-list
-		else if (command[0] == '2' && command.size() > 2)
-		{
-			backlog.tasklist.push_back(command.substr(2));
-		}
-		//Edit a specific task from ToDo-list
-		else if (command[0] == '3')
-		{
-			std::cout << "write number of task you wish to edit\nfollowed by what you want to change it to" << std::endl;
-			backlog.viewTasks();
-			std::getline(std::cin, command);
-			for (int i = 0; i < backlog.tasklist.size(); ++i)
+			if (targetState == stateList[i]._category)
 			{
-				if ((command[0] - '0') == i && command.size() > 2)
+				statePointer = &stateList[i];
+				break;
+			}
+		}
+		State& toDoListPart = *statePointer;
+
+
+
+		//View ToDo-list
+		if (command == "1")
+		{
+			if (targetState != ""){
+				toDoListPart.viewTasks();
+			}
+			else
+			{
+				for (int i = 0; i < stateList.size(); ++i)
 				{
-					backlog.tasklist[i]._description = command.substr(2);
+					stateList[i].viewTasks();
 				}
 			}
+		}
+		
+		//Add task to ToDo-list
+		else if (command == "2")
+		{
+			toDoListPart.tasklist.push_back(Task(sentence));
+		}
+		
+		//Edit a specific task from ToDo-list
+		else if (command == "3")
+		{
+			toDoListPart.viewTasks();
+			toDoListPart.editTask(sentence);
 		}
 		//Delete a specific task from ToDo-list
-		else if (command[0] == '4')
+		else if (command == "4")
 		{
-			std::cout << "write which task you wish to delete" << std::endl;
-			backlog.viewTasks();
-			std::getline(std::cin, command);
-			for (int i = 0; i < backlog.tasklist.size(); ++i)
-			{
-				if ((command[0] - '0') == i)
-				{
-					backlog.tasklist.erase(backlog.tasklist.begin()+i);
-				}
-			}
+			toDoListPart.viewTasks();
+			toDoListPart.deleteTask();
 		}
 	}
-    return 0;
+	return 0;
 }
