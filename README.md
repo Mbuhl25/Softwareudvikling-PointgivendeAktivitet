@@ -2,20 +2,20 @@
 For the first PA
 
 
-## List of things I have asked CoPilot
+# List of things I have asked CoPilot
 
-# Spurgte om:
+## Spurgte om:
 I have a vector of Tasks. How do I create my first task?
 std::vector<Task> todolist;
-# Fik givet:
+## Fik givet:
 ```
 todolist.push_back(Task("Buy milk"));
 ```
 
-# Spurgte om:
+## Spurgte om:
 In a std::string. How do I choose specific parts of the string?
 what if I want anything but the 2 first?
-# Fik givet:
+## Fik givet:
 ```
 std::string rest = s.substr(2);
 ```
