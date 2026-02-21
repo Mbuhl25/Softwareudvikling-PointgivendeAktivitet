@@ -19,20 +19,3 @@ what if I want anything but the 2 first?
 ```
 std::string rest = s.substr(2);
 ```
-
-## Spurgte om:
-```
-std::string command = "";
-std::cin >> command;
-if (command[0] == '2')
-{
-    std::cout << command.substr(2,2) << std::endl;
-    backlog.tasklist.push_back(task_description.substr(2));
-}
-```
-## Fandt ud af:
-```
-std::getline(std::cin, description);
-er bedre end
-std::cin >> description;
-```

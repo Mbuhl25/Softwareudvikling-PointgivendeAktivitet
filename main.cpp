@@ -40,21 +40,16 @@ int main() {
 
     TodoList backlog = TodoList("Backlog");
 	std::cout << "Welcome to the todo list" << std::endl;
-	std::cout << "What would you like to do?\n - 1: view tasks\n - 2: add task to backlog\n - 3: edit tasks" << std::endl;
 	while (true)
 	{
 		
-		std::cout << "\nwrite a task" << std::endl;
-		std::string command = "";
-		std::getline(std::cin, command);
-		if (command[0] == '1')
-		{
-			backlog.viewTasks();
-		}
-		else if (command[0] == '2' && command.size() > 2)
-		{
-			backlog.tasklist.push_back(command.substr(2));
-		}
+		std::cout << "write a task" << std::endl;
+		std::string task_description = "";
+		std::cin >> task_description;
+		backlog.tasklist.push_back(task_description);
+		std::cout << "You have these task\n" << std::endl;
+		backlog.viewTasks();
+
 	}
     return 0;
 }
