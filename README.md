@@ -78,6 +78,7 @@ How to split a string up in 3 parts?
 Debug hjælp
 
 ### Fik giver:
+```
 State* selected = nullptr;
 for (size_t i = 0; i < stateList.size(); ++i) {
     if (targetState == stateList[i]._category) {
@@ -86,3 +87,4 @@ for (size_t i = 0; i < stateList.size(); ++i) {
     }
 }
 State& state = *selected
+```

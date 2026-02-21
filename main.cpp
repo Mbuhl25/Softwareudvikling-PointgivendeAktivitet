@@ -4,55 +4,47 @@
 #include <string>
 #include <vector>
 
-class Task
-{
+class Task {
 public:
 	std::string _description;
-	Task(std::string description){
+	Task(std::string description) {
 		_description = description;
 	}
 };
 
-class State
-{	
+class State {	
 public:
 	std::string _category;
 	std::vector<Task> tasklist;
-	State(std::string category)
-	{
+	State(std::string category){
 		_category = category;
 	}
 
-	void viewTasks()
-	{
+	void viewTasks() {
 		std::cout << "" << std::endl;
 		std::cout << "+==================================" << std::endl;
 		std::cout << "|               " << _category << std::endl;
 		std::cout << "+==================================" << std::endl;
-		for (int i = 0; i < tasklist.size(); ++i)
-		{
+		for (int i = 0; i < tasklist.size(); ++i) {
 			std::cout << "| " << i << ": " << tasklist[i]._description << std::endl;
 			std::cout << "+----------------------------------+" << std::endl;
 		}
 	}
 
-	void editTask(std::string description)
-	{
+	void editTask(std::string description) {
 		std::cout << "Which description do you wish to change to ?" << description << std::endl;
 		int taskNr = 0;
 		std::cin >> taskNr;
 		tasklist[taskNr]._description = description;
 	}
 
-	void deleteTask()
-	{
+	void deleteTask() {
 		std::cout << "write which task you wish to delete" << std::endl;
 		int taskNr = 0;
 		std::cin >> taskNr;
 		tasklist.erase(tasklist.begin()+taskNr);
 	}
 };
-
 
 int main() {
 	// Initiate all the different parts of the To Do list:
@@ -68,8 +60,7 @@ int main() {
 
 	
 	std::cout << "Welcome to the todo list" << std::endl;
-	while (true)
-	{
+	while (true) {
 		std::cout << "Enter: <command> [targetState] [sentence]\n> ";
 
 		// Get user Input as three variables: <command> [targetState] [sentence]
@@ -82,10 +73,8 @@ int main() {
         std::getline(iss, sentence);
 
 		// assign a variable "toDoListPart", which points to the part of the ToDo-list to evaluate the command over
-		for (int i = 0; i < stateList.size(); ++i)
-		{
-			if (targetState == stateList[i]._category)
-			{
+		for (int i = 0; i < stateList.size(); ++i) {
+			if (targetState == stateList[i]._category) {
 				statePointer = &stateList[i];
 				break;
 			}
@@ -95,8 +84,7 @@ int main() {
 
 
 		//View ToDo-list
-		if (command == "1")
-		{
+		if (command == "1") {
 			if (targetState != ""){
 				toDoListPart.viewTasks();
 			}
@@ -110,22 +98,22 @@ int main() {
 		}
 		
 		//Add task to ToDo-list
-		else if (command == "2")
-		{
+		else if (command == "2") {
 			toDoListPart.tasklist.push_back(Task(sentence));
 		}
 		
 		//Edit a specific task from ToDo-list
-		else if (command == "3")
-		{
+		else if (command == "3") {
 			toDoListPart.viewTasks();
 			toDoListPart.editTask(sentence);
 		}
 		//Delete a specific task from ToDo-list
-		else if (command == "4")
-		{
+		else if (command == "4") {
 			toDoListPart.viewTasks();
 			toDoListPart.deleteTask();
+		}
+		else if (command == "5") {
+
 		}
 	}
 	return 0;
