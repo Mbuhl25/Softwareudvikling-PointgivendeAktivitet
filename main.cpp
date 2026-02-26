@@ -3,13 +3,19 @@
 #include <sstream>
 #include <string>
 #include <vector>
+#include <regex>
 
 class Task
 {
 public:
 	std::string _description;
-	Task(std::string description){
+	std::string _dueDate;
+	Task(std::string description) {
 		_description = description;
+		_dueDate = "";
+	}
+	void setDueDate(std::string dueDate) {
+		_dueDate = dueDate;
 	}
 };
 
@@ -32,6 +38,9 @@ public:
 		for (int i = 0; i < tasklist.size(); ++i)
 		{
 			std::cout << "| " << i << ": " << tasklist[i]._description << std::endl;
+			if (tasklist[i]._dueDate != "") {
+				std::cout << "| Due Date: " << tasklist[i]._dueDate << std::endl;
+			}
 			std::cout << "+----------------------------------+" << std::endl;
 		}
 		std::cout << "\n" << std::endl;
@@ -59,11 +68,11 @@ int main() {
 	// Initiate all the different parts of the To Do list:
     State stateBacklog = State("Backlog");
 	State stateDoing = State("Doing");
-	State stateTest = State("test");
+	State stateDone = State("Done");
 	std::vector<State> stateList;
 	stateList.push_back(stateBacklog);
 	stateList.push_back(stateDoing);
-	stateList.push_back(stateTest);
+	stateList.push_back(stateDone);
 
 	State* statePointer = nullptr;
 
@@ -71,8 +80,8 @@ int main() {
 	std::cout << "Welcome to the todo list\n" << std::endl;
 	while (true)
 	{
-		std::cout << "Enter: <command> [targetState] [sentence]" << std::endl;
-		std::cout << "1 | View task (from [targetState])\n2 | to [targetstate] add [sentence]\n3 | edit task from [targetState] to [sentence]\n4 | delete task from [targetState]\n5 | move task from [targetState] to a [sentence]\n>";
+		std::cout << "Enter: <command> [first] [second]" << std::endl;
+		std::cout << "1 | View task (from Stage[first])\n2 | To Stage[first] add task-description[second]\n3 | Edit task from Stage[first] to task-description[second]\n4 | Delete task from Stage[first]\n5 | Move task from Stage[first] to a Stage[second]\n6 | From a task in Stage[first] add a due-date[second]\n>";
 
 		// Get user Input as three variables: <command> [targetState] [sentence]
 		std::string line;
@@ -81,7 +90,7 @@ int main() {
         std::istringstream iss(line);
         iss >> command;
         iss >> targetState;
-        std::getline(iss, sentence);
+        std::getline(iss >> std::ws, sentence);
 
 		// assign a variable "toDoListPart", which points to the part of the ToDo-list to evaluate the command over
 		for (int i = 0; i < stateList.size(); ++i)
@@ -128,6 +137,22 @@ int main() {
 		{
 			toDoListPart.viewTasks();
 			toDoListPart.deleteTask();
+		}
+
+		else if (command == "6")
+		{
+			std::regex pattern(R"(^\d{4}-\d{4}$)");
+			if (std::regex_match(sentence, pattern)) {
+				toDoListPart.viewTasks();
+				std::cout << "Which task do you wish to add a due date to?" << std::endl;
+				int taskNr = 0;
+				std::cin >> taskNr;
+				toDoListPart.tasklist[taskNr]._dueDate = sentence;
+			}
+			else {
+				std::cout << sentence << std::endl;
+				std::cout << "date is invalid" << std::endl;
+			}
 		}
 	}
 	return 0;
