@@ -34,6 +34,7 @@ public:
 			std::cout << "| " << i << ": " << tasklist[i]._description << std::endl;
 			std::cout << "+----------------------------------+" << std::endl;
 		}
+		std::cout << "\n" << std::endl;
 	}
 
 	void editTask(std::string description)
@@ -67,10 +68,11 @@ int main() {
 	State* statePointer = nullptr;
 
 	
-	std::cout << "Welcome to the todo list" << std::endl;
+	std::cout << "Welcome to the todo list\n" << std::endl;
 	while (true)
 	{
-		std::cout << "Enter: <command> [targetState] [sentence]\n> ";
+		std::cout << "Enter: <command> [targetState] [sentence]" << std::endl;
+		std::cout << "1 | View task (from [targetState])\n2 | to [targetstate] add [sentence]\n3 | edit task from [targetState] to [sentence]\n4 | delete task from [targetState]\n5 | move task from [targetState] to a [sentence]\n>";
 
 		// Get user Input as three variables: <command> [targetState] [sentence]
 		std::string line;
