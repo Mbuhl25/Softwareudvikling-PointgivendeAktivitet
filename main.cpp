@@ -66,6 +66,7 @@ int main() {
 	stateList.push_back(stateTest);
 
 	State* statePointer = nullptr;
+	State* targetStatePointer = nullptr;
 
 	
 	std::cout << "Welcome to the todo list\n" << std::endl;
@@ -81,7 +82,7 @@ int main() {
         std::istringstream iss(line);
         iss >> command;
         iss >> targetState;
-        std::getline(iss, sentence);
+        std::getline(iss >> std::ws, sentence);
 
 		// assign a variable "toDoListPart", which points to the part of the ToDo-list to evaluate the command over
 		for (int i = 0; i < stateList.size(); ++i)
@@ -128,6 +129,28 @@ int main() {
 		{
 			toDoListPart.viewTasks();
 			toDoListPart.deleteTask();
+		}
+		else if (command == "5")
+		{
+			toDoListPart.viewTasks();
+			std::cout << "Which task do you wish to move to " << sentence << std::endl;
+			int taskNr = 0;
+			std::cin >> taskNr;
+			for (int i = 0; i < stateList.size(); ++i)
+			{
+				if (sentence == stateList[i]._category)
+				{
+					targetStatePointer = &stateList[i];
+					break;
+				}
+			}
+			State& targetToDoListPart = *targetStatePointer;
+
+			std::cout << targetToDoListPart._category << toDoListPart._category << std::endl;
+
+			//adds the description from toDoListPart to targetToDoListPart
+			targetToDoListPart.tasklist.push_back(Task(toDoListPart.tasklist[taskNr]._description));
+			toDoListPart.tasklist.erase(toDoListPart.tasklist.begin()+taskNr);
 		}
 	}
 	return 0;

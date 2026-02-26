@@ -77,7 +77,7 @@ How to split a string up in 3 parts?
 ### Spurgte om:
 Debug hjælp
 
-### Fik giver:
+### Fik givet:
 State* selected = nullptr;
 for (size_t i = 0; i < stateList.size(); ++i) {
     if (targetState == stateList[i]._category) {
@@ -86,3 +86,13 @@ for (size_t i = 0; i < stateList.size(); ++i) {
     }
 }
 State& state = *selected
+
+
+
+### Spurgte om:
+debugging af en segmentation fault (core dumped)
+
+### Fik givet
+```
+std::getline(iss >> std::ws, sentence);
+```
