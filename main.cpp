@@ -5,8 +5,7 @@
 #include <vector>
 #include <regex>
 
-class Task
-{
+class Task {
 public:
 	std::string _description;
 	std::string _dueDate;
@@ -19,24 +18,20 @@ public:
 	}
 };
 
-class State
-{	
+class State {	
 public:
 	std::string _category;
 	std::vector<Task> tasklist;
-	State(std::string category)
-	{
+	State(std::string category){
 		_category = category;
 	}
 
-	void viewTasks()
-	{
+	void viewTasks() {
 		std::cout << "" << std::endl;
 		std::cout << "+==================================" << std::endl;
 		std::cout << "|               " << _category << std::endl;
 		std::cout << "+==================================" << std::endl;
-		for (int i = 0; i < tasklist.size(); ++i)
-		{
+		for (int i = 0; i < tasklist.size(); ++i) {
 			std::cout << "| " << i << ": " << tasklist[i]._description << std::endl;
 			if (tasklist[i]._dueDate != "") {
 				std::cout << "| Due Date: " << tasklist[i]._dueDate << std::endl;
@@ -46,23 +41,20 @@ public:
 		std::cout << "\n" << std::endl;
 	}
 
-	void editTask(std::string description)
-	{
+	void editTask(std::string description) {
 		std::cout << "Which description do you wish to change to ?" << description << std::endl;
 		int taskNr = 0;
 		std::cin >> taskNr;
 		tasklist[taskNr]._description = description;
 	}
 
-	void deleteTask()
-	{
+	void deleteTask() {
 		std::cout << "write which task you wish to delete" << std::endl;
 		int taskNr = 0;
 		std::cin >> taskNr;
 		tasklist.erase(tasklist.begin()+taskNr);
 	}
 };
-
 
 int main() {
 	// Initiate all the different parts of the To Do list:
@@ -75,6 +67,7 @@ int main() {
 	stateList.push_back(stateDone);
 
 	State* statePointer = nullptr;
+	State* targetStatePointer = nullptr;
 
 	
 	std::cout << "Welcome to the todo list\n" << std::endl;
@@ -93,10 +86,8 @@ int main() {
         std::getline(iss >> std::ws, sentence);
 
 		// assign a variable "toDoListPart", which points to the part of the ToDo-list to evaluate the command over
-		for (int i = 0; i < stateList.size(); ++i)
-		{
-			if (targetState == stateList[i]._category)
-			{
+		for (int i = 0; i < stateList.size(); ++i) {
+			if (targetState == stateList[i]._category) {
 				statePointer = &stateList[i];
 				break;
 			}
@@ -106,8 +97,7 @@ int main() {
 
 
 		//View ToDo-list
-		if (command == "1")
-		{
+		if (command == "1") {
 			if (targetState != ""){
 				toDoListPart.viewTasks();
 			}
@@ -121,26 +111,44 @@ int main() {
 		}
 		
 		//Add task to ToDo-list
-		else if (command == "2")
-		{
+		else if (command == "2") {
 			toDoListPart.tasklist.push_back(Task(sentence));
 		}
 		
 		//Edit a specific task from ToDo-list
-		else if (command == "3")
-		{
+		else if (command == "3") {
 			toDoListPart.viewTasks();
 			toDoListPart.editTask(sentence);
 		}
 		//Delete a specific task from ToDo-list
-		else if (command == "4")
-		{
+		else if (command == "4") {
 			toDoListPart.viewTasks();
 			toDoListPart.deleteTask();
 		}
 
-		else if (command == "6")
-		{
+		else if (command == "5") {
+			toDoListPart.viewTasks();
+			std::cout << "Which task do you wish to move to " << sentence << std::endl;
+			int taskNr = 0;
+			std::cin >> taskNr;
+			for (int i = 0; i < stateList.size(); ++i)
+			{
+				if (sentence == stateList[i]._category)
+				{
+					targetStatePointer = &stateList[i];
+					break;
+				}
+			}
+			State& targetToDoListPart = *targetStatePointer;
+
+			std::cout << targetToDoListPart._category << toDoListPart._category << std::endl;
+
+			//adds the description from toDoListPart to targetToDoListPart
+			targetToDoListPart.tasklist.push_back(Task(toDoListPart.tasklist[taskNr]._description));
+			toDoListPart.tasklist.erase(toDoListPart.tasklist.begin()+taskNr);
+		}
+
+		else if (command == "6") {
 			std::regex pattern(R"(^\d{4}-\d{4}$)");
 			if (std::regex_match(sentence, pattern)) {
 				toDoListPart.viewTasks();
@@ -154,6 +162,6 @@ int main() {
 				std::cout << "date is invalid" << std::endl;
 			}
 		}
-	}
 	return 0;
+	}
 }
