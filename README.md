@@ -123,3 +123,59 @@ std::getline(iss >> std::ws, sentence);
 >>>>>>> 2059379f539d286a095d38ce3747c5dd39e5f442
 >>>>>>> main
 ```
+
+
+### Spurgte om:
+Debuggin
+
+### Fik givet:
+en hel del:
+
+En ny viewtask der kan printe til en fil og printe til cout
+```
+void viewTasks(std::ostream& out = std::cout) {
+    out << "\n";
+    out << "+==================================\n";
+    out << "|               " << _category << "\n";
+    out << "+==================================\n";
+    for (size_t i = 0; i < tasklist.size(); ++i) {
+        out << "| " << i << ": " << tasklist[i]._description << "\n";
+        if (!tasklist[i]._dueDate.empty()) {
+            out << "| Due Date: " << tasklist[i]._dueDate << "\n";
+        }
+        out << "+----------------------------------+\n";
+    }
+    out << "\n\n";
+
+
+    else if (command == "7") {
+    std::ofstream file("text.txt");
+    if (!file) {
+        std::cerr << "open failed\n";
+        continue;
+    }
+    for (auto& s : stateList) {
+        s.viewTasks(file);
+    }
+    std::cout << "Saved to text.txt\n\n";
+}
+}
+```
+Fik endelig fikset de der pointers så de er safe
+```
+State* statePointer = nullptr;
+for (size_t i = 0; i < stateList.size(); ++i) {
+    if (targetState == stateList[i]._category) {
+        statePointer = &stateList[i];
+        break;
+    }
+}
+
+if (!statePointer && command != "1" && command != "7") {
+    std::cout << "Unknown stage: " << targetState << "\n\n";
+    continue;
+}
+
+// Only safe if we passed the check:
+State& toDoListPart = *statePointer;
+```
