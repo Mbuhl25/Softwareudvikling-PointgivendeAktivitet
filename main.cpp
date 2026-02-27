@@ -50,8 +50,9 @@ public:
 
 	void deleteTask() {
 		std::cout << "write which task you wish to delete" << std::endl;
-		int taskNr = 0;
-		std::cin >> taskNr;
+		std::string taskIdx = 0;
+		std::cin >> taskIdx;
+		int taskNr = stoi(taskIdx);
 		tasklist.erase(tasklist.begin()+taskNr);
 	}
 };
@@ -71,8 +72,7 @@ int main() {
 
 	
 	std::cout << "Welcome to the todo list\n" << std::endl;
-	while (true)
-	{
+	while (true) {
 		std::cout << "Enter: <command> [first] [second]" << std::endl;
 		std::cout << "1 | View task (from Stage[first])\n2 | To Stage[first] add task-description[second]\n3 | Edit task from Stage[first] to task-description[second]\n4 | Delete task from Stage[first]\n5 | Move task from Stage[first] to a Stage[second]\n6 | From a task in Stage[first] add a due-date[second]\n>";
 
@@ -93,8 +93,6 @@ int main() {
 			}
 		}
 		State& toDoListPart = *statePointer;
-
-
 
 		//View ToDo-list
 		if (command == "1") {
@@ -141,10 +139,9 @@ int main() {
 			}
 			State& targetToDoListPart = *targetStatePointer;
 
-			std::cout << targetToDoListPart._category << toDoListPart._category << std::endl;
-
 			//adds the description from toDoListPart to targetToDoListPart
-			targetToDoListPart.tasklist.push_back(Task(toDoListPart.tasklist[taskNr]._description));
+			targetToDoListPart.tasklist.push_back(toDoListPart.tasklist[taskNr]);
+			//targetToDoListPart.tasklist.push_back(Task(toDoListPart.tasklist[taskNr]._description));
 			toDoListPart.tasklist.erase(toDoListPart.tasklist.begin()+taskNr);
 		}
 
@@ -160,8 +157,8 @@ int main() {
 			else {
 				std::cout << sentence << std::endl;
 				std::cout << "date is invalid" << std::endl;
+				std::cout << "Use input format \"DDMM-YYYY\"" << std::endl;
 			}
 		}
-	return 0;
 	}
 }
