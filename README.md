@@ -80,9 +80,13 @@ Debug hjælp
 <<<<<<< HEAD
 ### Fik givet:
 =======
+<<<<<<< HEAD
+### Fik givet:
+=======
 ### Fik giver:
 ```
 >>>>>>> 2059379f539d286a095d38ce3747c5dd39e5f442
+>>>>>>> main
 State* selected = nullptr;
 for (size_t i = 0; i < stateList.size(); ++i) {
     if (targetState == stateList[i]._category) {
@@ -92,10 +96,24 @@ for (size_t i = 0; i < stateList.size(); ++i) {
 }
 State& state = *selected
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> main
 
 
 
 ### Spurgte om:
+<<<<<<< HEAD
+How to check regex pattern in c++?
+
+and what is the regex pattern for a date like "DDMM-YYYY"
+
+Fik givet:
+```
+#include <regex>
+&&
+^\d{4}-\d{4}$
+=======
 debugging af en segmentation fault (core dumped)
 
 ### Fik givet
@@ -103,4 +121,5 @@ debugging af en segmentation fault (core dumped)
 std::getline(iss >> std::ws, sentence);
 =======
 >>>>>>> 2059379f539d286a095d38ce3747c5dd39e5f442
+>>>>>>> main
 ```
